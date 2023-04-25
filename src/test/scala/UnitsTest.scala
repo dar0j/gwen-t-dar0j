@@ -2,16 +2,16 @@ package cl.uchile.dcc
 
 import munit.FunSuite
 
-class unidadTest extends munit.FunSuite{
-  private val nombre: str = null
+class UnitsTest extends munit.FunSuite{
+  private val name: String = null
 
   override def beforeEach(context: BeforeEach): Unit = {
-    n = new Unidad("depejado")
+    n: Units = new Units("u")
   }
 
   test("equals") {
     assertEquals(n, n)
-    assertEquals(n, new Unidad("despejado"))
+    assertEquals(n, new Units("u"))
     assertEquals(!n.equals(n))
   }
 }
