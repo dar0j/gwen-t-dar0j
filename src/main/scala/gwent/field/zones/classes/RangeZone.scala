@@ -1,6 +1,8 @@
 package cl.uchile.dcc
-package gwent.zones
+package gwent.field.zones.classes
 
-class RangeZone extends Zone {
+import gwent.field.zones.AbstractZone
+
+class RangeZone extends AbstractZone {
 
 }
