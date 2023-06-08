@@ -3,21 +3,23 @@ package gwent.field.zones
 
 import gwent.cards.classes.AbstractUnit
 
-import scala.Console.in
+import cl.uchile.dcc.gwent.cards.ICard
+
 import scala.collection.mutable.ArrayBuffer
 
-class fieldZone[T<:AbstractUnit]() {
-  private val unitZone: ArrayBuffer[T] = new ArrayBuffer[T](10)
+class Zone[T<:ICard]()
+  extends IZone {
+  private val cardZone: ArrayBuffer[T] = new ArrayBuffer[T](10)
 
   def get(i: Int): T = {
-    unitZone(i)
+    cardZone(i)
   }
   def add(t: T): Unit = {
-    unitZone += t
+    cardZone += t
   }
   def delete(t: T): Unit = {
-    if (t in unitZone) {
-      unitZone -= t
+    if (t in cardZone) {
+      cardZone -= t
     }
   //  else throw exception
   }

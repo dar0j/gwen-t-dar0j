@@ -1,8 +1,9 @@
 package cl.uchile.dcc
 package gwent.field.zones
 
-import gwent.field.zones.AbstractZone
+import gwent.field.zones.Zone
 
-class Hand extends AbstractZone {
+class Hand
+  extends Zone {
 
 }

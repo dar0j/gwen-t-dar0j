@@ -1,7 +1,7 @@
 package cl.uchile.dcc
 package gwent.field
 
-import cl.uchile.dcc.gwent.cards.ICard
+import gwent.cards.ICard
 import scala.collection.mutable.ArrayBuffer
 import scala.util.Random
 

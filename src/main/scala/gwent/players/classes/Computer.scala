@@ -1,17 +1,32 @@
 package cl.uchile.dcc
 package gwent.players.classes
 
-import cl.uchile.dcc.gwent.players.AbstractPlayer
+import gwent.cards.classes.units.{CloseCombat, Siege}
+import gwent.cards.classes.weathers.{BitingFrost, ClearWeather, ImpenetrableMist, TorrentialRain}
+import gwent.field.Deck
+import gwent.players.AbstractPlayer
 
-import scala.collection.mutable.ListBuffer
+import cl.uchile.dcc.gwent.field.zones.Hand
 
-/** The computer in the game playing against a player.
+import scala.collection.mutable.{ArrayBuffer, ListBuffer}
+
+/** The computer in the game playing against a player has defined its name and deck.
  *
- * @constructor Initializes the gems and name "COM".
+ * @constructor Initializes the gems, deck and name "COM".
  */
 class Computer extends AbstractPlayer {
-  private val name: String = "COM"
-  var Deck: ListBuffer = ListBuffer(new Units("a", 1), new Units("b", 2), new Weather("c"))
-  var Hand: ListBuffer = ListBuffer(new Units("d", 3), new Units("e", 4), new Weather("f"))
 
+  val name: String = "COM"
+
+  var deck: Deck = ArrayBuffer(
+    new CloseCombat("Close Combat", 1),
+    new Range("Range", 2),
+    new Siege("Siege", 3),
+    new CloseCombat("Close Combat Eff", 1, 1),
+    new Range("Range Eff", 2, 1),
+    new Siege("Siege Eff", 3, 1),
+    new ClearWeather("Clima Despejado"),
+    new ImpenetrableMist("Niebla Impenetrable"),
+    new BitingFrost("Escarcha Mordiente"),
+    new TorrentialRain(this))
 }
