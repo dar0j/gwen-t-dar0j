@@ -1,0 +1,11 @@
+package cl.uchile.dcc
+package gwent.cards.classes.units
+
+import gwent.cards.classes.AbstractUnit
+
+class Range (n: String,
+                 f: Int,
+                 e: Int = 0)
+  extends AbstractUnit(n, f) {
+  override val classification = "Range"
+}
