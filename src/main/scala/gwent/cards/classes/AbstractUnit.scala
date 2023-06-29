@@ -20,6 +20,10 @@ abstract class AbstractUnit(_name: String,
   /** This variable represents the strength of the unit.*/
   var force: Int = _force
 
+  def force_(newForce: Int): Unit = {
+    _force = newForce
+  }
+
   /**
    * Applyes the effect of adding plus 1 to the force of all the other Units in the same Zone.
    *

@@ -1,7 +1,7 @@
 package cl.uchile.dcc
 package gwent.cards.classes.units
 
-import cl.uchile.dcc.gwent.cards.classes.AbstractUnit
+import gwent.cards.classes.AbstractUnit
 
 class Range (n: String,
                  f: Int,
