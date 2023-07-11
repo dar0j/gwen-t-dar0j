@@ -4,6 +4,8 @@ package gwent.players
 import gwent.cards.classes.units.{CloseCombat, Siege}
 import gwent.field.Deck
 import gwent.field.zones.{Hand, Zone}
+
+import scala.collection.mutable.ListBuffer
 import scala.util.Random.shuffle
 
 /** Abstract class that factors the actions a player can make, this include
@@ -56,4 +58,14 @@ abstract class AbstractPlayer
   }
 
   val hand: Hand = draw(10)
+
+  val observers: ListBuffer[Observer[T]] = ListBuffer()
+
+  def registerObserver(o: Observer[T]): Unit = observers += o
+
+  def notifyObservers(response: T) = {
+    for (o <- observers) {
+      o.update(this, response)
+    }
+  }
 }

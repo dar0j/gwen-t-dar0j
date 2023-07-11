@@ -6,6 +6,7 @@ import cl.uchile.dcc.gwent.players.IPlayer
 import cl.uchile.dcc.gwent.players.classes.{Computer, User}
 
 import scala.collection.mutable
+import scala.collection.mutable.ListBuffer
 
 class GameController(val userInterface: UserInterface) {
 
@@ -72,6 +73,13 @@ class GameController(val userInterface: UserInterface) {
     playerCharacters.foreach(addPlayerCharacter)
     PCs.foreach(addPC)
     state = new IdleState(this)
+    //pass turns
+    if (playerCharacters(0).gems == 0) {
+        notifyObservers(playerCharacters(0))
+      }
+    if (PCs(0).gems == 0) {
+      notifyObservers(PCs(0))
+    }
   }
 
   private def addToField[T <: Zone](factory: Zone[T], name: String): Unit = {
@@ -99,3 +107,4 @@ class GameController(val userInterface: UserInterface) {
   def addPC(): Unit = {
     PCs = PCs :+ new Computer()
   }
+

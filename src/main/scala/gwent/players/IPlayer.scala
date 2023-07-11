@@ -26,4 +26,8 @@ trait IPlayer {
   def play(): Unit
 
   def draw(): Unit
+
+  def registerObserver(o: Observer[T]): Unit
+
+  def notifyObservers(response: T)
 }
