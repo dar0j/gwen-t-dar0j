@@ -1,63 +1,55 @@
 package cl.uchile.dcc
 package gwent.players
 
-import gwent.cards.classes.units.{CloseCombat, Siege}
-import gwent.field.Deck
-import gwent.field.zones.{Hand, Zone}
+import gwent.cards.ICard
+import gwent.cards.classes.units.{CloseCombat, Ranged, Siege}
+import gwent.field.Field
+import gwent.field.zones.Zone
 
 import scala.collection.mutable.ListBuffer
 import scala.util.Random.shuffle
 
 /** Abstract class that factors the actions a player can make, this include
  *  playing a card to the field and drawing a card to the hand.
- */
-abstract class AbstractPlayer
+ *
+ *  @param _name The customized name of the player.
+ *  @param _deck The given deck of the player.
+ *  @param _hand The hand created of the player. */
+abstract class AbstractPlayer(private val _name: String,
+                              private var _gems: Int = 2,
+                              private var _deck: List[ICard],
+                              private var _hand: List[ICard])
   extends IPlayer {
-  protected var gems: Int = 2
-  val ccz = new Zone[CloseCombat]
-  val rz = new Zone[Range]
-  val sz = new Zone[Siege]
-//  val deck: Deck = _
 
-  /**
-   * Plays a card placing it from the hand to the field.
-   *
-   * @param i Index of the card to be played from the hand.
-   * @param H Hand from a player.
-   * @return Unit, but the field is updaated.
-   */
-  def play(i: Int): Unit = {
-    val cl = hand(i).classification
-    if (cl = "Weather") {
-      Field.update(this, "weatherZone")
-    } else if (cl = "Siege") {
-      Field.update(this, "SiegeZone"")
-    } else if (cl = "Range") {
-      Field.update(this, "RangeZone")
-    } else if (cl = "CloseCombat") {
-      Field.update(this, "CloseCombatZone")
+  override def gems: Int = _gems
+
+  def loseGem(): Int = _gems -= 1
+
+  override def deck: List[ICard] = _deck
+
+  override def hand: List[ICard] = _hand
+
+  override def name: String = _name
+
+  override protected var closeCombatZone = new Zone[CloseCombat]
+  override protected var rangedZone = new Zone[Ranged]
+  override protected var siegeZone = new Zone[Siege]
+
+  override def playCard(index: Int, field: Field): Unit = {
+    hand(index).toField(this, field)
+  }
+
+  def drawCards(howMany: Int = 3): Unit = {
+    for (i <- 1 to howMany) {
+      _hand = deck.head +: hand
+      _deck = deck.tail
     }
   }
 
-  /**
-   * Draws a card from the deck to the hand.
-   *
-   * @param n How many cards the player draws
-   * @return Unit, but shuffles the deck
-   */
-  def draw(n: Int = 3): Unit = {
-    for (i <- 1 to n) {
-      hand += deck.head
-      deck -= deck.head
-    }
-    shuffleDeck()
-  }
 
-  def shuffleDeck(): Unit = {
-    deck = shuffle(deck)
+  override def shuffleDeck(): Unit = {
+    _deck = shuffle(deck)
   }
-
-  val hand: Hand = draw(10)
 
   val observers: ListBuffer[Observer[T]] = ListBuffer()
 

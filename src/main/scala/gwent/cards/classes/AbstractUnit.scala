@@ -1,34 +1,33 @@
 package cl.uchile.dcc
 package gwent.cards.classes
 
-import cl.uchile.dcc.gwent.cards.AbstractCard
+import gwent.cards.IUnit
+import gwent.cards.effects.{IEffect, NoEffect}
 
-/**Creates a Unit Card
+/** Creates the model of Unit Cards.
  *
- * @param _name The name of the Unit card.
- * @param _force The given strength of this Unit card.
- * @param eff 0 if it isn't an effect card, 1 if it has moreleBooster, 2 if it has closeBond.
- * @constructor A Unit Card.
+ *  @param _name The name of the Unit card.
+ *  @param _force The given strength of this Unit card, may be modified.
+ *  @param effect The effect the Unit Card has, no effect by default .
  */
-abstract class AbstractUnit(_name: String,
-                            _force: Int,
-                            eff: Int = 0)
-  extends AbstractCard(_name) {
-  /** The Unit Card name is stored in this variable.*/
-  val name: String = _name
+abstract class AbstractUnit(private val _name: String,
+                            private var _force: Int,
+                            private val effect: IEffect = NoEffect)
+  extends IUnit {
 
-  /** This variable represents the strength of the unit.*/
-  var force: Int = _force
+  override def name: String = _name
 
-  def force_(newForce: Int): Unit = {
+  override def force: Int = _force
+
+  /** Units' force may be modified by effects so here we have a setter to a new force.
+   *  @param newForce The new resulting force of the Unit. */
+  def force_=(newForce: Int): Unit = {
     _force = newForce
   }
 
-  /**
-   * Applyes the effect of adding plus 1 to the force of all the other Units in the same Zone.
+  /** Applyes the effect of adding plus 1 to the force of all the other Units in the same Zone.
    *
-   * @return Unit, but changes the field.
-   */
+   *  @return Unit, but changes the field. */
   def moraleBooster(): Unit = {
 //    z = this.zone
     //+1 force to Other cards in zone

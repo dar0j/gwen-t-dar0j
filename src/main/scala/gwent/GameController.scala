@@ -1,12 +1,11 @@
 package cl.uchile.dcc
 package gwent
 
-import cl.uchile.dcc.gwent.field.zones.Zone
-import cl.uchile.dcc.gwent.players.IPlayer
-import cl.uchile.dcc.gwent.players.classes.{Computer, User}
+import gwent.field.zones.Zone
+import gwent.players.IPlayer
+import gwent.players.classes.{Computer, User}
 
 import scala.collection.mutable
-import scala.collection.mutable.ListBuffer
 
 class GameController(val userInterface: UserInterface) {
 
@@ -20,7 +19,7 @@ class GameController(val userInterface: UserInterface) {
    */
   private var PCs = List.empty[IPlayer]
 
-  /** Queue to manage turns of the Playe instances.
+  /** Queue to manage turns of the Player instances.
    * Initially empty.
    */
   private val turnsQueue = mutable.Queue.empty[IPlayer]

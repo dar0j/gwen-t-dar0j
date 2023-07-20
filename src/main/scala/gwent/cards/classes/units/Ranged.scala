@@ -2,25 +2,20 @@ package cl.uchile.dcc
 package gwent.cards.classes.units
 
 import gwent.cards.classes.AbstractUnit
+import gwent.cards.effects.IEffect
 import gwent.field.Field
 import gwent.players.IPlayer
-import gwent.cards.effects.IEffect
 
-class Siege (name: String,
+class Ranged (name: String,
              force: Int,
              effect: IEffect)
   extends AbstractUnit(name, force, effect) with IEffect {
 
-  override val classification = "Siege"
+  override val classification = "Ranged"
 
   override def effect(): Unit = ???
 
   override def toField(player: IPlayer, field: Field): Unit = {
-    player.updateSiegeZone(this, field)
+    player.updateRangedZone(this, field)
   }
 }
-/*override def moraleBooster(): Unit = {
-  for (card <- SiegeZone) {
-    card.force += 1
-  }
-}*/

@@ -1,7 +1,7 @@
 package cl.uchile.dcc
 
 import munit.FunSuite
-class drawTest extends munit.FunSuite{
+class drawTest extends FunSuite{
   override def beforeEach(context: BeforeEach): Unit = {
     d: Deck =  new Deck(List(Weather("c"), Weather("b"), Weather("a")))
   }

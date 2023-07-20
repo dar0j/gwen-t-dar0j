@@ -1,34 +1,55 @@
 package cl.uchile.dcc
 package gwent.players.classes
 
-import gwent.cards.classes.units.{CloseCombat, Range, Siege}
-import gwent.cards.classes.weathers.{BitingFrost, ClearWeather, ImpenetrableMist, TorrentialRain}
-import gwent.field.Deck
-import gwent.field.zones.Hand
+import gwent.cards.ICard
+import gwent.cards.classes.units.{CloseCombat, Ranged, Siege}
+import gwent.exceptions.ZoneFullException
+import gwent.field.Field
 import gwent.players.AbstractPlayer
-
-import scala.collection.mutable.ArrayBuffer
 
 /** The player in the game playing against the computer.
  *
- * @param playername
- * @constructor Creates an user with playername as his name, also initializes a Deck and a Hand.
+ *  @param _name The name of the player.
+ *  @param _deck The deck the user will play with.
+ *  @param _hand The hand of the user.
+ *  @constructor Creates an user with _name as his name, also initializes a deck and a hand.
  */
-class User(playername: String,
-           mydeck: Deck = ArrayBuffer(
-             new CloseCombat("Close Combat", 1),
-             new Range("Range", 2),
-             new Siege("Siege", 3),
-             new CloseCombat("Close Combat Eff", 1, 1),
-             new Range("Range Eff", 2, 1),
-             new Siege("Siege Eff", 3, 1),
-             new ClearWeather("Clima Despejado"),
-             new ImpenetrableMist("Niebla Impenetrable"),
-             new BitingFrost("Escarcha Mordiente"),
-             new TorrentialRain(this)))
-  extends AbstractPlayer {
+class User(private val _name: String,
+           private var _deck: List[ICard],
+           private var _hand: List[ICard])
+  extends AbstractPlayer(_name, _deck, _hand) {
 
-  private val name: String = playername
-  val deck: Deck = mydeck
+  override def playCard(index: Int, field: Field): Unit = {
+    hand(index).toField(this, field)
+  }
+
+  override def updateSiegeZone(siege: Siege, field: Field): Unit = {
+    try {
+      siegeZone.addCard(siege)
+    } catch {
+      case zf: ZoneFullException => println(zf.getMessage)
+    }
+    field.userSiegeZone = siegeZone
+  }
+
+  override def updateRangedZone(ranged: Ranged, field: Field): Unit = {
+    try {
+      rangedZone.addCard(ranged)
+    } catch {
+      case zf: ZoneFullException => println(zf.getMessage)
+    }
+    field.userRangedZone = rangedZone
+  }
+
+  override def updateCloseCombatZone(closeCombat: CloseCombat, field: Field): Unit = {
+    try {
+      closeCombatZone.addCard(closeCombat)
+    } catch {
+      case zf: ZoneFullException => println(zf.getMessage)
+    }
+    field.userCloseCombatZone = closeCombatZone
+  }
+
 }
+
 

@@ -1,5 +1,5 @@
 package cl.uchile.dcc
-package gwent.cards.classes.effects
+package gwent.cards.effects
 
 abstract class CloseBond
   extends IEffect {

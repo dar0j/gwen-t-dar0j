@@ -1,65 +1,72 @@
 package cl.uchile.dcc
 package gwent.field
 
-import gwent.cards.classes.AbstractWeather
-import gwent.cards.classes.units.{CloseCombat, Range, Siege}
+import gwent.cards.classes.units.{CloseCombat, Ranged, Siege}
+import gwent.cards.{IWeather, NullCard}
 import gwent.field.zones.Zone
-import gwent.players.IPlayer
 
-import scala.collection.mutable.ArrayBuffer
+/** Class representing the field in which the cards will be placed and the game will develop. */
+class Field(private var _weatherZone: Array[IWeather] = Array[IWeather](NullCard),
+            private var _userSiegeZone: Zone[Siege] = new Zone[Siege],
+            private var _userRangedZone: Zone[Ranged] = new Zone[Ranged],
+            private var _userCloseCombatZone: Zone[CloseCombat] = new Zone[CloseCombat],
+            private var _pcSiegeZone: Zone[Siege] = new Zone[Siege],
+            private var _pcRangedZone: Zone[Ranged] = new Zone[Ranged],
+            private var _pcCloseCombatZone: Zone[CloseCombat] = new Zone[CloseCombat]) {
 
-class Field(var _weatherZone: ArrayBuffer[AbstractWeather] = new ArrayBuffer[AbstractWeather](1),
-            var _userSiegeZone: Zone[Siege] = new Zone[Siege],
-            var _userRangeZone: Zone[Range] = new Zone[Range],
-            var _userCloseCombatZone: Zone[CloseCombat] = new Zone[CloseCombat],
-            var _pcSiegeZone: Zone[Siege] = new Zone[Siege],
-            var _pcRangeZone: Zone[Range] = new Zone[Range],
-            var _pcCloseCombatZone: Zone[CloseCombat] = new Zone[CloseCombat]) {
-  private def weatherZone_(Z: ArrayBuffer[AbstractWeather]) = {
-    _weatherZone = Z
-  }
-  private def userSiegeZone_(z: Zone[Siege]) = {
-    _userSiegeZone = z
-  }
-  private def userRangeZone_(z: Zone[Range]) = {
-    _userRangeZone = z
-  }
-  private def userCloseCombatZone_(z: Zone[CloseCombat]) = {
-    _userCloseCombatZone = z
-  }
-  private def pcSiegeZone_(z: Zone[Siege]) = {
-    _pcSiegeZone = z
-  }
-  private def pcRangeZone_(z: Zone[Range]) = {
-    _pcRangeZone = z
-  }
-  private def pcCloseCombatZone_(z: Zone[CloseCombat]) = {
-    _pcCloseCombatZone = z
-  }
-  /** Updates the field using double dispatch
-   * but i ran out of time to implement this.
-   */
-  def update(p: IPlayer, z: Zone) = {
-    if (p.getClass.toString == "User") {
-      if (z.toString == "SiegeZone") {
-        userSiegeZone_(p.sz)
-      } else if (z.toString == "RangeZone") {
-        userRangeZone_(p.sz)
-      } else if (z.toString == "CloseCombatZone") {
-        userCloseCombatZone_(p.sz)
-      }
-    } else {
-      if (z.toString == "SiegeZone") {
-        pcSiegeZone_(p.sz)
-      } else if (z.toString == "RangeZone") {
-        pcRangeZone_(p.sz)
-      } else if (z.toString == "CloseCombatZone") {
-        pcCloseCombatZone_(p.sz)
-      }
-    }
+  /** Gets the current weather field zone. */
+  def weatherZone: Array[IWeather] = _weatherZone
+
+  /** Gets the User's Siege Units field zone. */
+  def userSiegeZone: Zone[Siege] = _userSiegeZone
+
+  /** Gets the User's Ranged Units field zone. */
+  def userRangedZone: Zone[Ranged] = _userRangedZone
+
+  /** Gets the User's Close Combat Units field zone. */
+  def userCloseCombatZone: Zone[CloseCombat] = _userCloseCombatZone
+
+  /** Gets the PC's Siege Units field zone. */
+  def pcSiegeZone: Zone[Siege] = _pcSiegeZone
+
+  /** Gets the PC's Ranged Units field zone. */
+  def pcRangedZone: Zone[Ranged] = _pcRangedZone
+
+  /** Gets the PC's Close Combat Units field zone. */
+  def pcCloseCombatZone: Zone[CloseCombat] = _pcCloseCombatZone
+
+  /** Updates the weather of the field. */
+  def weatherZone_=(newZone: Array[IWeather]): Unit = {
+    _weatherZone = newZone
   }
 
-  //  val userSiegeZone: AbstractZone = userField.head
-  //  val userRangeZone: AbstractZone = userField(1)
-  //  val userCloseCombatZone: AbstractZone = userField(2)
+  /** Sets the User's Siege Zone  */
+   def userSiegeZone_=(newZone: Zone[Siege]): Unit = {
+    _userSiegeZone = newZone
+  }
+
+  /** Sets the User's Ranged Zone  */
+  def userRangedZone_=(newZone: Zone[Ranged]): Unit = {
+    _userRangedZone = newZone
+  }
+
+  /** Sets the User's Close Combat Zone  */
+  def userCloseCombatZone_=(newZone: Zone[CloseCombat]): Unit = {
+    _userCloseCombatZone = newZone
+  }
+
+  /** Sets the PC's Siege Zone  */
+  def pcSiegeZone_=(newZone: Zone[Siege]): Unit = {
+    _pcSiegeZone = newZone
+  }
+
+  /** Sets the PC's Ranged Zone  */
+  def pcRangedZone_=(newZone: Zone[Ranged]): Unit = {
+    _pcRangedZone = newZone
+  }
+
+  /** Sets the PC's Close Combat Zone  */
+  def pcCloseCombatZone_=(newZone: Zone[CloseCombat]): Unit = {
+    _pcCloseCombatZone = newZone
+  }
 }

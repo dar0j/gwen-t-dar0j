@@ -1,26 +1,31 @@
 package cl.uchile.dcc
 package gwent.field.zones
 
-import gwent.cards.classes.AbstractUnit
-
-import cl.uchile.dcc.gwent.cards.ICard
-
-import scala.collection.mutable.ArrayBuffer
+import gwent.cards.ICard
+import gwent.exceptions.ZoneFullException
 
 class Zone[T<:ICard]()
-  extends IZone {
-  private val cardZone: ArrayBuffer[T] = new ArrayBuffer[T](10)
+  extends IZone[T] {
 
-  def get(i: Int): T = {
-    cardZone(i)
+  override protected var cardZone: Vector[T] = Vector.empty[T]//Vector.fill(10)(NullCard)
+  override def apply(index: Int): T = {
+    cardZone(index)
   }
-  def add(t: T): Unit = {
-    cardZone += t
-  }
-  def delete(t: T): Unit = {
-    if (t in cardZone) {
-      cardZone -= t
+
+  override def addCard(card: T): Unit = {
+    if (cardZone.length < 10) {
+      cardZone = card +: cardZone
+    } else {
+      throw new ZoneFullException("Cannot add more cards, 10 already.")
     }
-  //  else throw exception
+  }
+
+  override def removeCard(index: Int): Unit = {
+    if (index < cardZone.length && index >= 0) {
+      cardZone = cardZone.patch(index, Nil, 1)
+    } else {
+      throw new IndexOutOfBoundsException("Index out of range for the zone.")
+    }
   }
 }
+
